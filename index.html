@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xeelee.ai - Redefining AI Boundaries</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+        
+        /* 导航栏 */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 60px;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #00E4FF 0%, #5D6CFF 50%, #FF8FE2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+        
+        .logo::after {
+            content: "";
+            position: absolute;
+            height: 6px;
+            width: 6px;
+            background: #00E4FF;
+            border-radius: 50%;
+            bottom: 5px;
+            right: -8px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 50px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(90deg, #00E4FF, #8F00FF);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #00E4FF;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #15151e 0%, #000000 100%);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+        }
+        
+        .hero-subtitle {
+            font-size: 16px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #00E4FF;
+            margin-bottom: 20px;
+        }
+        
+        .hero h1 {
+            font-size: 80px;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            margin-bottom: 30px;
+            line-height: 1.1;
+            background: linear-gradient(180deg, #FFFFFF 0%, #BEBEBE 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, #00E4FF 0%, #5D6CFF 50%, #FF8FE2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 22px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto 50px;
+            line-height: 1.6;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .hero-button {
+            padding: 16px 32px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .primary-button {
+            background: linear-gradient(135deg, #00E4FF 0%, #5D6CFF 100%);
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 228, 255, 0.3);
+        }
+        
+        .primary-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 228, 255, 0.4);
+        }
+        
+        .secondary-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .secondary-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .button-icon {
+            width: 18px;
+            height: 18px;
+        }
+        
+        /* 视差球体 */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            z-index: 1;
+        }
+        
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle at center, rgba(0, 228, 255, 0.8) 0%, rgba(0, 228, 255, 0) 70%);
+            top: -100px;
+            right: -100px;
+        }
+        
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle at center, rgba(93, 108, 255, 0.8) 0%, rgba(93, 108, 255, 0) 70%);
+            bottom: -50px;
+            left: -50px;
+        }
+        
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle at center, rgba(255, 143, 226, 0.8) 0%, rgba(255, 143, 226, 0) 70%);
+            top: 40%;
+            left: 25%;
+        }
+        
+        /* 愿景部分 */
+        .vision {
+            padding: 150px 60px;
+            position: relative;
+            background-color: #080810;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 100px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .section-subtitle {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #00E4FF;
+            margin-bottom: 20px;
+        }
+        
+        .vision h2 {
+            font-size: 56px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 30px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #BEBEBE 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-description {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .vision-content {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .vision-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .vision-item:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .vision-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #00E4FF, #5D6CFF);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        
+        .vision-item:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .vision-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 30px;
+            color: #ffffff;
+            background: rgba(0, 228, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .vision-item:nth-child(2) .vision-icon {
+            background: rgba(93, 108, 255, 0.1);
+        }
+        
+        .vision-item:nth-child(3) .vision-icon {
+            background: rgba(255, 143, 226, 0.1);
+        }
+        
+        .vision-item:hover .vision-icon {
+            transform: scale(1.1);
+        }
+        
+        .vision-item h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .vision-item:nth-child(1) h3 {
+            color: #00E4FF;
+        }
+        
+        .vision-item:nth-child(2) h3 {
+            color: #5D6CFF;
+        }
+        
+        .vision-item:nth-child(3) h3 {
+            color: #FF8FE2;
+        }
+        
+        .vision-item p {
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+        
+        .read-more {
+            font-size: 15px;
+            font-weight: 500;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .vision-item:nth-child(1) .read-more:hover {
+            color: #00E4FF;
+        }
+        
+        .vision-item:nth-child(2) .read-more:hover {
+            color: #5D6CFF;
+        }
+        
+        .vision-item:nth-child(3) .read-more:hover {
+            color: #FF8FE2;
+        }
+        
+        .arrow-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .read-more:hover .arrow-icon {
+            transform: translateX(5px);
+        }
+        
+        /* 背景网格 */
+        .grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), 
+                radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            z-index: 1;
+            opacity: 0.3;
+        }
+        
+        /* 底部 */
+        footer {
+            padding: 80px 60px 40px;
+            background-color: #000000;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 60px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-info {
+            max-width: 400px;
+        }
+        
+        .footer-logo {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #00E4FF 0%, #5D6CFF 50%, #FF8FE2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .footer-logo::after {
+            content: "";
+            position: absolute;
+            height: 6px;
+            width: 6px;
+            background: #00E4FF;
+            border-radius: 50%;
+            bottom: 8px;
+            right: -8px;
+        }
+        
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .social-icon {
+            width: 18px;
+            height: 18px;
+            color: #ffffff;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 80px;
+        }
+        
+        .footer-column h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #ffffff;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-column a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            color: #00E4FF;
+        }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 30px auto 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+        
+        .footer-nav {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .footer-nav a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-nav a:hover {
+            color: #ffffff;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .vision-content {
+                flex-direction: column;
+                max-width: 600px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 50px;
+            }
+            
+            .footer-info {
+                max-width: 100%;
+            }
+            
+            .footer-links {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                padding: 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 48px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .hero-button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .vision {
+                padding: 100px 20px;
+            }
+            
+            .vision h2 {
+                font-size: 40px;
+            }
+            
+            .footer-links {
+                flex-wrap: wrap;
+                gap: 40px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .footer-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="logo">Xeelee</div>
+        <div class="nav-links">
+            <a href="#vision">Vision</a>
+            <a href="#products">Products</a>
+            <a href="#technology">Technology</a>
+            <a href="#about">About Us</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        
+        <div class="hero-content">
+            <div class="hero-subtitle">Welcome to the future of AI</div>
+            <h1>Redefining <span>Intelligence</span> for a New Era</h1>
+            <p>We're pushing the boundaries of artificial intelligence to create technology that truly understands human needs, empowering a world where intelligent systems enhance every aspect of our lives.</p>
+            
+            <div class="hero-buttons">
+                <a href="#vision" class="hero-button primary-button">
+                    <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                    </svg>
+                    Discover Our Vision
+                </a>
+                <a href="#contact" class="hero-button secondary-button">
+                    <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 愿景部分 -->
+    <section class="vision" id="vision">
+        <div class="grid-bg"></div>
+        
+        <div class="section-header">
+            <div class="section-subtitle">Our Vision</div>
+            <h2>Creating Intelligence That Understands</h2>
+            <p class="section-description">At Xeelee.ai, we're dedicated to developing AI systems that transcend traditional boundaries, creating technology that truly understands and adapts to human needs.</p>
+        </div>
+        
+        <div class="vision-content">
+            <div class="vision-item">
+                <svg class="vision-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                <h3>Breakthrough Innovation</h3>
+                <p>We're constantly pushing the boundaries of what's possible in AI, developing revolutionary algorithms and architectures that create entirely new capabilities and experiences.</p>
+                <a href="#" class="read-more">
+                    Learn more
+                    <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="vision-item">
+                <svg class="vision-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <h3>Human-Centered Intelligence</h3>
+                <p>We believe AI should amplify human potential rather than replace it. Our systems are designed to understand context, emotion, and intent, creating more natural and intuitive interactions.</p>
+                <a href="#" class="read-more">
+                    Learn more
+                    <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="vision-item">
+                <svg class="vision-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h.5A2.5 2.5 0 0020 5.5v-1.65M12 12a2 2 0 100-4 2 2 0 000 4zm8-8a2 2 0 100-4 2 2 0 000 4zM4 4a2 2 0 100-4 2 2 0 000 4z" />
+                </svg>
+                <h3>Universal Access</h3>
+                <p>We're committed to making advanced AI accessible to everyone. Our technologies are designed to be intuitive, adaptable, and available across platforms, democratizing the benefits of artificial intelligence.</p>
+                <a href="#" class="read-more">
+                    Learn more
+                    <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <div class="footer-logo">Xeelee</div>
+                <p class="footer-description">Exploring the frontiers of artificial intelligence to create technology that truly understands and amplifies human potential.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">
+                        <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Research</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Compliance</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 Xeelee.ai. All rights reserved.</p>
+            <div class="footer-nav">
+                <a href="#">Sitemap</a>
+                <a href="#">Contact</a>
+                <a href="#">Status</a>
+                <a href="#">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
