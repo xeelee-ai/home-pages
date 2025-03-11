@@ -64,15 +64,19 @@
             position: relative;
         }
         
-        .logo::after {
-            content: "";
-            position: absolute;
-            height: 6px;
-            width: 6px;
-            background: #00E4FF;
-            border-radius: 50%;
-            bottom: 5px;
-            right: -8px;
+        .menu-button {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 101;
+        }
+        
+        .menu-button svg {
+            width: 24px;
+            height: 24px;
         }
         
         .nav-links {
@@ -351,6 +355,8 @@
             display: flex;
             gap: 20px;
             justify-content: center;
+            align-items: center;
+            width: 100%;
         }
         
         .hero-button {
@@ -414,15 +420,21 @@
             margin-bottom: 80px;
             position: relative;
             z-index: 2;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .section-subtitle {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 3px;
             color: #00E4FF;
             margin-bottom: 20px;
+            background: linear-gradient(135deg, #00E4FF 0%, #5D6CFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .vision h2 {
@@ -433,53 +445,21 @@
             background: linear-gradient(180deg, #FFFFFF 0%, #BEBEBE 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 1.2;
         }
         
         .section-description {
             font-size: 20px;
             color: rgba(255, 255, 255, 0.7);
             max-width: 700px;
-            margin: 0 auto;
+            margin: 0 auto 60px;
             line-height: 1.6;
-        }
-        
-        /* SVG Roadmap Container */
-        .roadmap-container {
-            max-width: 1200px;
-            margin: 0 auto 100px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-        
-        .roadmap-container svg {
-            width: 100%;
-            height: auto;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-        }
-        
-        .roadmap-container text {
-            fill: rgba(255, 255, 255, 0.9);
-        }
-        
-        .roadmap-container .timeline-text {
-            fill: rgba(255, 255, 255, 0.7);
-        }
-        
-        .roadmap-container .milestone-text {
-            fill: rgba(255, 255, 255, 0.8);
-        }
-        
-        .roadmap-container line {
-            stroke: rgba(255, 255, 255, 0.2);
         }
         
         .vision-content {
             display: flex;
             justify-content: center;
-            gap: 60px;
+            gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
@@ -498,10 +478,12 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
             overflow: hidden;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 400px;
             box-shadow: 
                 0 10px 30px rgba(0, 0, 0, 0.5),
                 inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            transform: translateY(0);
         }
         
         .vision-item::after {
@@ -520,7 +502,9 @@
             transform: translateY(-10px);
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 1px rgba(255, 255, 255, 0.2);
         }
         
         .vision-item::before {
@@ -548,19 +532,22 @@
             background: rgba(0, 228, 255, 0.1);
             padding: 15px;
             border-radius: 15px;
-            transition: all 0.3s ease;
-        }
-        
-        .vision-item:nth-child(2) .vision-icon {
-            background: rgba(93, 108, 255, 0.1);
-        }
-        
-        .vision-item:nth-child(3) .vision-icon {
-            background: rgba(255, 143, 226, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .vision-item:hover .vision-icon {
             transform: scale(1.1);
+            background: rgba(0, 228, 255, 0.15);
+        }
+        
+        .vision-item:nth-child(2):hover .vision-icon {
+            transform: scale(1.1);
+            background: rgba(93, 108, 255, 0.15);
+        }
+        
+        .vision-item:nth-child(3):hover .vision-icon {
+            transform: scale(1.1);
+            background: rgba(255, 143, 226, 0.15);
         }
         
         .vision-item h3 {
@@ -568,6 +555,7 @@
             font-weight: 600;
             margin-bottom: 20px;
             transition: all 0.3s ease;
+            line-height: 1.3;
         }
         
         .vision-item:nth-child(1) h3 {
@@ -681,17 +669,6 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
             position: relative;
-        }
-        
-        .footer-logo::after {
-            content: "";
-            position: absolute;
-            height: 6px;
-            width: 6px;
-            background: #00E4FF;
-            border-radius: 50%;
-            bottom: 8px;
-            right: -8px;
         }
         
         .footer-description {
@@ -808,6 +785,18 @@
                 width: 100%;
                 justify-content: space-between;
             }
+
+            .roadmap-container {
+                max-width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 20px;
+            }
+
+            .roadmap-container svg {
+                min-width: 1000px;
+                height: auto;
+            }
         }
         
         @media (max-width: 768px) {
@@ -815,12 +804,106 @@
                 padding: 20px;
             }
             
-            .nav-links {
-                display: none;
+            .menu-button {
+                display: block;
+                position: relative;
+                z-index: 1001;
             }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 200px;
+                background: rgba(0, 0, 0, 0.75);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1000;
+                border-radius: 12px;
+                box-shadow: 
+                    0 4px 24px rgba(0, 0, 0, 0.2),
+                    0 0 0 1px rgba(255, 255, 255, 0.1);
+                margin: 8px;
+                padding: 8px 0;
+                height: auto;
+            }
+
+            .nav-links.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+                padding: 12px 20px;
+                width: 100%;
+                color: rgba(255, 255, 255, 0.9);
+                position: relative;
+                transition: all 0.3s ease;
+                touch-action: manipulation;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .nav-links a::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 1px;
+                bottom: 8px;
+                left: 20px;
+                background: linear-gradient(90deg, #00E4FF, #8F00FF);
+                transition: width 0.3s ease;
+                display: block;
+            }
+
+            .nav-links a:hover,
+            .nav-links a:active,
+            .nav-links a:focus {
+                color: #00E4FF;
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-links a:hover::after,
+            .nav-links a:active::after,
+            .nav-links a:focus::after {
+                width: calc(100% - 40px);
+            }
+
+            .nav-links a:active {
+                transform: scale(0.98);
+            }
+
+            .nav-links a:nth-child(1) { transition-delay: 0.1s; }
+            .nav-links a:nth-child(2) { transition-delay: 0.15s; }
+            .nav-links a:nth-child(3) { transition-delay: 0.2s; }
+            .nav-links a:nth-child(4) { transition-delay: 0.25s; }
+            .nav-links a:nth-child(5) { transition-delay: 0.3s; }
             
             .hero h1 {
-                font-size: 48px;
+                font-size: 32px;
+            }
+
+            .hero h1 .token-container {
+                height: 70px;
+            }
+
+            .hero h1 .tokens {
+                font-size: 32px;
+                letter-spacing: -0.5px;
+            }
+
+            .hero h1 .token-segment {
+                padding: 2px 0;
+            }
+
+            .hero h1 .word-group .token-segment {
+                padding: 2px 4px;
             }
             
             .hero p {
@@ -829,13 +912,15 @@
             
             .hero-buttons {
                 flex-direction: column;
-                width: 100%;
+                align-items: center;
+                margin: 0 auto;
                 max-width: 300px;
             }
             
             .hero-button {
                 width: 100%;
                 justify-content: center;
+                text-align: center;
             }
             
             .vision {
@@ -861,6 +946,126 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
+
+            .roadmap-container {
+                margin: 0 -20px 60px;
+                padding: 15px;
+                border-radius: 0;
+            }
+
+            .roadmap-container::-webkit-scrollbar {
+                height: 4px;
+            }
+
+            .roadmap-container::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            .roadmap-container::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 2px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 24px;
+            }
+
+            .hero h1 .token-container {
+                height: 50px;
+            }
+
+            .hero h1 .tokens {
+                font-size: 24px;
+            }
+
+            .hero h1 .token-segment {
+                padding: 1px 0;
+            }
+
+            .hero h1 .word-group .token-segment {
+                padding: 1px 2px;
+            }
+
+            .hero-subtitle {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+
+            .hero p {
+                font-size: 16px;
+                margin-bottom: 30px;
+            }
+
+            .roadmap-container {
+                margin: 0 -20px 40px;
+                padding: 10px;
+            }
+
+            .section-header {
+                margin-bottom: 40px;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .vision-content {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .vision-item {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .vision-item:nth-child(1) { animation-delay: 0.2s; }
+        .vision-item:nth-child(2) { animation-delay: 0.4s; }
+        .vision-item:nth-child(3) { animation-delay: 0.6s; }
+
+        @media (max-width: 768px) {
+            .vision-content {
+                flex-direction: column;
+                padding: 0 20px;
+            }
+            
+            .vision-item {
+                width: 100%;
+                min-height: auto;
+                margin-bottom: 20px;
+            }
+            
+            .section-header {
+                padding: 0 20px;
+            }
+            
+            .vision h2 {
+                font-size: 36px;
+            }
+            
+            .section-description {
+                font-size: 18px;
+                margin-bottom: 40px;
+            }
         }
     </style>
 </head>
@@ -868,6 +1073,11 @@
     <!-- 导航栏 -->
     <nav id="navbar">
         <div class="logo">Xeelee AI</div>
+        <button class="menu-button" aria-label="Toggle menu">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+        </button>
         <div class="nav-links">
             <a href="#vision">Vision</a>
             <a href="#products">Products</a>
@@ -920,8 +1130,52 @@
         
         <div class="section-header">
             <div class="section-subtitle">Our Vision</div>
-            <h2>Creating Intelligence That Understands</h2>
-            <p class="section-description">At Xeelee.ai, we're dedicated to developing AI systems that transcend traditional boundaries, creating technology that truly understands and adapts to human needs.</p>
+            <h2>Transforming the Future of Humanity</h2>
+            <p class="section-description">We're building revolutionary AI systems that will fundamentally reshape how humanity lives, works, and evolves, creating a future where technology and human potential converge to unlock unprecedented possibilities.</p>
+        </div>
+        
+        <div class="vision-content">
+            <div class="vision-item">
+                <svg class="vision-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3>Infrastructure for Future Life and Work</h3>
+                <p>Creating the foundational systems and tools that will revolutionize how we live and work. Our AI infrastructure seamlessly integrates with human capabilities, enabling unprecedented levels of productivity, creativity, and quality of life.</p>
+                <a href="#" class="read-more">
+                    Explore Infrastructure
+                    <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="vision-item">
+                <svg class="vision-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                </svg>
+                <h3>Achieve Pareto Optimal Decisions</h3>
+                <p>Pioneering advanced decision-making systems that optimize outcomes for all of humanity. Our technology ensures that progress and development benefit everyone collectively while respecting and enhancing individual interests.</p>
+                <a href="#" class="read-more">
+                    Learn About Optimization
+                    <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="vision-item">
+                <svg class="vision-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+                <h3>Civilization Paradigm Transformation</h3>
+                <p>Developing a powerful engine for high-level transformation of human civilization. Through advanced AI systems, we're enabling fundamental shifts in how society operates, learns, and evolves, paving the way for a more enlightened future.</p>
+                <a href="#" class="read-more">
+                    Discover the Future
+                    <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
         </div>
         
         <div class="roadmap-container">
@@ -1026,56 +1280,13 @@
             </svg>
         </div>
         
-        <div class="vision-content">
-            <div class="vision-item">
-                <svg class="vision-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
-                <h3>Breakthrough Innovation</h3>
-                <p>We're constantly pushing the boundaries of what's possible in AI, developing revolutionary algorithms and architectures that create entirely new capabilities and experiences.</p>
-                <a href="#" class="read-more">
-                    Learn more
-                    <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </a>
-            </div>
-            
-            <div class="vision-item">
-                <svg class="vision-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-                <h3>Human-Centered Intelligence</h3>
-                <p>We believe AI should amplify human potential rather than replace it. Our systems are designed to understand context, emotion, and intent, creating more natural and intuitive interactions.</p>
-                <a href="#" class="read-more">
-                    Learn more
-                    <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </a>
-            </div>
-            
-            <div class="vision-item">
-                <svg class="vision-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h.5A2.5 2.5 0 0020 5.5v-1.65M12 12a2 2 0 100-4 2 2 0 000 4zm8-8a2 2 0 100-4 2 2 0 000 4zM4 4a2 2 0 100-4 2 2 0 000 4z" />
-                </svg>
-                <h3>Universal Access</h3>
-                <p>We're committed to making advanced AI accessible to everyone. Our technologies are designed to be intuitive, adaptable, and available across platforms, democratizing the benefits of artificial intelligence.</p>
-                <a href="#" class="read-more">
-                    Learn more
-                    <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </a>
-            </div>
-        </div>
     </section>
 
     <!-- 底部 -->
     <footer>
         <div class="footer-content">
             <div class="footer-info">
-                <div class="footer-logo">Xeelee</div>
+                <div class="footer-logo">Xeelee AI</div>
                 <p class="footer-description">Exploring the frontiers of artificial intelligence to create technology that truly understands and amplifies human potential.</p>
                 <div class="social-links">
                     <a href="#" class="social-link">
@@ -1182,6 +1393,23 @@
             
             // 每6秒重复一次动画
             setInterval(resetAnimation, 6000);
+
+            // 移动端菜单处理
+            const menuButton = document.querySelector('.menu-button');
+            const navLinks = document.querySelector('.nav-links');
+            
+            menuButton.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+            });
+
+            // 点击导航链接时关闭菜单
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
         });
     </script>
 </body>
