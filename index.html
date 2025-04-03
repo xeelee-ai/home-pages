@@ -1,1 +1,1391 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xeelee.ai - AI-Powered Goal & Time Management</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><style>@keyframes glow { 0%, 100% { filter: drop-shadow(0 0 3px %2300ffff) drop-shadow(0 0 8px %23ff00ff); } 50% { filter: drop-shadow(0 0 5px %23ff00ff) drop-shadow(0 0 12px %2300ffff); }}</style><circle cx='50' cy='50' r='35' fill='none' stroke='url(%23grad)' stroke-width='6' style='animation: glow 3s ease-in-out infinite'/><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2300ffff;stop-opacity:1' /><stop offset='100%' style='stop-color:%23ff00ff;stop-opacity:1' /></linearGradient></defs><path d='M38 38 L62 62 M62 38 L38 62' stroke='white' stroke-width='6' stroke-linecap='round'/></svg>">
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><style>@keyframes glow { 0%, 100% { filter: drop-shadow(0 0 3px %2300ffff) drop-shadow(0 0 8px %23ff00ff); } 50% { filter: drop-shadow(0 0 5px %23ff00ff) drop-shadow(0 0 12px %2300ffff); }}</style><circle cx='50' cy='50' r='35' fill='none' stroke='url(%23grad)' stroke-width='6' style='animation: glow 3s ease-in-out infinite'/><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2300ffff;stop-opacity:1' /><stop offset='100%' style='stop-color:%23ff00ff;stop-opacity:1' /></linearGradient></defs><path d='M38 38 L62 62 M62 38 L38 62' stroke='white' stroke-width='6' stroke-linecap='round'/></svg>">
+    
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.5;
+            overflow-x: hidden;
+            background: 
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.95)),
+                repeating-linear-gradient(45deg, rgba(0, 255, 255, 0.08) 0px, rgba(0, 255, 255, 0.08) 1px, transparent 1px, transparent 10px),
+                repeating-linear-gradient(-45deg, rgba(255, 0, 255, 0.08) 0px, rgba(255, 0, 255, 0.08) 1px, transparent 1px, transparent 10px);
+        }
+        
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+        
+        /* 导航栏 */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.4s ease;
+            box-shadow: none;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #00ff00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        .menu-button {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 101;
+        }
+        
+        .menu-button svg {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 50px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 1);
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
+            position: relative;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #00ffff;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 255, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at center, #1a1a2e 0%, #000000 100%);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle at center, rgba(255, 0, 255, 0.1) 0%, transparent 25%);
+            animation: rotate 30s linear infinite;
+            z-index: 1;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.1) 0%, transparent 25%);
+            animation: rotate 20s linear infinite reverse;
+            z-index: 1;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes float {
+            0% { 
+                transform: translateY(0px) translateX(0px) scale(1); 
+                filter: blur(60px);
+            }
+            50% { 
+                transform: translateY(-15px) translateX(10px) scale(1.1); 
+                filter: blur(70px);
+            }
+            100% { 
+                transform: translateY(0px) translateX(0px) scale(1); 
+                filter: blur(60px);
+            }
+        }
+        
+        @keyframes glow {
+            0% { opacity: 0.4; }
+            50% { opacity: 0.7; }
+            100% { opacity: 0.4; }
+        }
+        
+        /* Hero Section Orbs */
+        .hero .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.9) 0%, rgba(0, 255, 255, 0) 70%);
+            top: -150px;
+            right: -150px;
+            animation: 
+                float 20s ease-in-out infinite,
+                glow 8s ease-in-out infinite;
+            mix-blend-mode: screen;
+            filter: blur(50px);
+        }
+        
+        .hero .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle at center, rgba(255, 0, 255, 0.9) 0%, rgba(255, 0, 255, 0) 70%);
+            bottom: -80px;
+            left: -80px;
+            animation: 
+                float 25s ease-in-out infinite reverse,
+                glow 10s ease-in-out infinite;
+            animation-delay: -5s;
+            mix-blend-mode: screen;
+            filter: blur(50px);
+        }
+        
+        .hero .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle at center, rgba(0, 255, 0, 0.9) 0%, rgba(0, 255, 0, 0) 70%);
+            top: 25%;
+            left: 15%;
+            animation: 
+                float 15s ease-in-out infinite,
+                glow 6s ease-in-out infinite;
+            animation-delay: -10s;
+            mix-blend-mode: screen;
+            filter: blur(50px);
+        }
+        
+        .hero .orb-4 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle at center, rgba(255, 255, 0, 0.8) 0%, rgba(255, 255, 0, 0) 70%);
+            top: 55%;
+            right: 10%;
+            animation: 
+                float 18s ease-in-out infinite reverse,
+                glow 7s ease-in-out infinite;
+            animation-delay: -7s;
+            mix-blend-mode: screen;
+            filter: blur(50px);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            animation: contentFade 1s ease-out forwards;
+            margin-top: -40px;
+        }
+        
+        @keyframes contentFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-subtitle {
+            font-size: 16px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #00ffff;
+            margin-bottom: 15px;
+        }
+        
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            margin-bottom: 25px;
+            line-height: 1.1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero h1 .token-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            height: 120px;
+            width: 100vw;
+            overflow: visible;
+        }
+        
+        .hero h1 .tokens {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'SF Mono', Consolas, 'Courier New', monospace;
+            font-size: 36px;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            white-space: nowrap;
+            text-align: center;
+        }
+        
+        .hero h1 .token-segment {
+            display: inline-block;
+            padding: 4px 0;
+            margin: 0;
+            opacity: 0;
+            animation: segmentAppear 0.5s ease-out forwards;
+            animation-delay: var(--appear-delay, 0s);
+            font-weight: 300;
+            position: relative;
+            white-space: pre;
+        }
+        
+        /* 添加word-group样式 */
+        .hero h1 .word-group {
+            display: inline-flex;
+            margin: 0;
+        }
+
+        .hero h1 .word-group .token-segment {
+            margin: 0;
+            padding: 4px 8px;
+        }
+
+        .hero h1 .word-group .token-segment:first-child {
+            border-radius: 4px 0 0 4px;
+        }
+
+        .hero h1 .word-group .token-segment:last-child {
+            border-radius: 0 4px 4px 0;
+        }
+
+        .hero h1 .word-group .token-segment:not(:first-child):not(:last-child) {
+            border-radius: 0;
+        }
+        
+        @keyframes segmentAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 移除 segmentTransform 动画，直接使用固定颜色 */
+        .hero h1 .token-segment.purple { color: #ff00ff; --appear-delay: 0s; }
+        .hero h1 .token-segment.pink { color: #00ff00; --appear-delay: 0.5s; }
+        .hero h1 .token-segment.blue { color: #00ffff; --appear-delay: 1.0s; }
+        .hero h1 .token-segment.green { color: #00ff00; --appear-delay: 1.5s; }
+        .hero h1 .token-segment.orange { color: #ff00ff; --appear-delay: 2.0s; }
+        .hero h1 .token-segment.yellow { color: #00ffff; --appear-delay: 2.5s; }
+        .hero h1 .token-segment.cyan { color: #00ff00; --appear-delay: 3.0s; }
+        .hero h1 .token-segment.red { color: #00ff00; --appear-delay: 3.5s; }
+        
+        .hero p {
+            font-size: 20px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 650px;
+            margin: 0 auto 40px;
+            line-height: 1.5;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .hero-button {
+            padding: 16px 32px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .primary-button {
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.4);
+        }
+        
+        .primary-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 255, 255, 0.6);
+        }
+        
+        .secondary-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .secondary-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .button-icon {
+            width: 18px;
+            height: 18px;
+        }
+        
+        /* 愿景部分 */
+        .vision {
+            padding: 100px 60px;
+            position: relative;
+            background: 
+                radial-gradient(circle at 70% 30%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 30% 70%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.95));
+            overflow: hidden;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section-subtitle {
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        .vision h2 {
+            font-size: 56px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 30px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #BEBEBE 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+        
+        .section-description {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto 60px;
+            line-height: 1.6;
+        }
+        
+        .vision-content {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .vision-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 400px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1),
+                0 0 20px rgba(0, 255, 255, 0.2);
+        }
+        
+        .vision-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(125deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 60%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .vision-item:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 1px rgba(255, 255, 255, 0.2),
+                0 0 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .vision-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        
+        .vision-item:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .vision-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 30px;
+            color: #ffffff;
+            background: rgba(0, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 15px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        .vision-item:nth-child(1) {
+            background: linear-gradient(125deg, rgba(0, 157, 255, 0.08) 0%, rgba(0, 157, 255, 0.02) 100%);
+            border: 1px solid rgba(0, 157, 255, 0.1);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 1px 1px rgba(0, 157, 255, 0.1),
+                0 0 20px rgba(0, 157, 255, 0.2);
+        }
+        
+        .vision-item:nth-child(2) {
+            background: linear-gradient(125deg, rgba(255, 0, 140, 0.08) 0%, rgba(255, 0, 140, 0.02) 100%);
+            border: 1px solid rgba(255, 0, 140, 0.1);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 1px 1px rgba(255, 0, 140, 0.1),
+                0 0 20px rgba(255, 0, 140, 0.2);
+        }
+        
+        .vision-item:nth-child(3) {
+            background: linear-gradient(125deg, rgba(255, 140, 0, 0.08) 0%, rgba(255, 140, 0, 0.02) 100%);
+            border: 1px solid rgba(255, 140, 0, 0.1);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 1px 1px rgba(255, 140, 0, 0.1),
+                0 0 20px rgba(255, 140, 0, 0.2);
+        }
+        
+        .vision-item:nth-child(1):hover {
+            background: linear-gradient(125deg, rgba(0, 157, 255, 0.12) 0%, rgba(0, 157, 255, 0.04) 100%);
+            border: 1px solid rgba(0, 157, 255, 0.2);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 1px rgba(0, 157, 255, 0.2),
+                0 0 30px rgba(0, 157, 255, 0.3);
+        }
+        
+        .vision-item:nth-child(2):hover {
+            background: linear-gradient(125deg, rgba(255, 0, 140, 0.12) 0%, rgba(255, 0, 140, 0.04) 100%);
+            border: 1px solid rgba(255, 0, 140, 0.2);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 1px rgba(255, 0, 140, 0.2),
+                0 0 30px rgba(255, 0, 140, 0.3);
+        }
+        
+        .vision-item:nth-child(3):hover {
+            background: linear-gradient(125deg, rgba(255, 140, 0, 0.12) 0%, rgba(255, 140, 0, 0.04) 100%);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 1px rgba(255, 140, 0, 0.2),
+                0 0 30px rgba(255, 140, 0, 0.3);
+        }
+        
+        .vision-item:nth-child(1) .vision-icon {
+            background: rgba(0, 157, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 157, 255, 0.3);
+        }
+        
+        .vision-item:nth-child(2) .vision-icon {
+            background: rgba(255, 0, 140, 0.15);
+            box-shadow: 0 0 20px rgba(255, 0, 140, 0.3);
+        }
+        
+        .vision-item:nth-child(3) .vision-icon {
+            background: rgba(255, 140, 0, 0.15);
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
+        }
+        
+        .vision-item:nth-child(1) h3 {
+            color: rgb(0, 157, 255);
+            text-shadow: 0 0 10px rgba(0, 157, 255, 0.5);
+        }
+        
+        .vision-item:nth-child(2) h3 {
+            color: rgb(255, 0, 140);
+            text-shadow: 0 0 10px rgba(255, 0, 140, 0.5);
+        }
+        
+        .vision-item:nth-child(3) h3 {
+            color: rgb(255, 140, 0);
+            text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
+        }
+        
+        .vision-item:nth-child(1) .read-more:hover {
+            color: rgb(0, 157, 255);
+        }
+        
+        .vision-item:nth-child(2) .read-more:hover {
+            color: rgb(255, 0, 140);
+        }
+        
+        .vision-item:nth-child(3) .read-more:hover {
+            color: rgb(255, 140, 0);
+        }
+        
+        .vision-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        
+        .vision-item:nth-child(1)::before {
+            background: linear-gradient(90deg, rgb(0, 157, 255), rgba(0, 157, 255, 0.5));
+        }
+        
+        .vision-item:nth-child(2)::before {
+            background: linear-gradient(90deg, rgb(255, 0, 140), rgba(255, 0, 140, 0.5));
+        }
+        
+        .vision-item:nth-child(3)::before {
+            background: linear-gradient(90deg, rgb(255, 140, 0), rgba(255, 140, 0, 0.5));
+        }
+        
+        .read-more {
+            font-size: 15px;
+            font-weight: 500;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .arrow-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .read-more:hover .arrow-icon {
+            transform: translateX(5px);
+        }
+        
+        /* 修改网格背景 */
+        .grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            background-position: center center;
+            z-index: 1;
+            opacity: 0.3;
+            transform: perspective(1000px) rotateX(60deg);
+            transform-origin: top;
+            pointer-events: none;
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 30px 30px; }
+        }
+        
+        /* 底部 */
+        footer {
+            padding: 80px 60px 40px;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.05) 0%, transparent 40%),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.98), #000000);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 60px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-info {
+            max-width: 400px;
+        }
+        
+        .footer-logo {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #00ff00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .social-icon {
+            width: 18px;
+            height: 18px;
+            color: #ffffff;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 80px;
+        }
+        
+        .footer-column h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #ffffff;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-column a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            color: #00ffff;
+        }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 30px auto 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+        
+        .footer-nav {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .footer-nav a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-nav a:hover {
+            color: #ffffff;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .vision-content {
+                flex-direction: column;
+                max-width: 600px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 50px;
+            }
+            
+            .footer-info {
+                max-width: 100%;
+            }
+            
+            .footer-links {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .roadmap-container {
+                max-width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 20px;
+            }
+
+            .roadmap-container svg {
+                min-width: 1000px;
+                height: auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                padding: 20px;
+            }
+            
+            .menu-button {
+                display: block;
+                position: relative;
+                z-index: 1001;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 200px;
+                background: rgba(0, 0, 0, 0.75);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1000;
+                border-radius: 12px;
+                box-shadow: 
+                    0 4px 24px rgba(0, 0, 0, 0.2),
+                    0 0 0 1px rgba(255, 255, 255, 0.1);
+                margin: 8px;
+                padding: 8px 0;
+                height: auto;
+            }
+
+            .nav-links.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+                padding: 12px 20px;
+                width: 100%;
+                color: rgba(255, 255, 255, 0.9);
+                position: relative;
+                transition: all 0.3s ease;
+                touch-action: manipulation;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .nav-links a::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 1px;
+                bottom: 8px;
+                left: 20px;
+                background: linear-gradient(90deg, #00ffff, #ff00ff);
+                transition: width 0.3s ease;
+                display: block;
+            }
+
+            .nav-links a:hover,
+            .nav-links a:active,
+            .nav-links a:focus {
+                color: #00ffff;
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-links a:hover::after,
+            .nav-links a:active::after,
+            .nav-links a:focus::after {
+                width: calc(100% - 40px);
+            }
+
+            .nav-links a:active {
+                transform: scale(0.98);
+            }
+
+            .nav-links a:nth-child(1) { transition-delay: 0.1s; }
+            .nav-links a:nth-child(2) { transition-delay: 0.15s; }
+            .nav-links a:nth-child(3) { transition-delay: 0.2s; }
+            .nav-links a:nth-child(4) { transition-delay: 0.25s; }
+            .nav-links a:nth-child(5) { transition-delay: 0.3s; }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero h1 .token-container {
+                height: 70px;
+            }
+
+            .hero h1 .tokens {
+                font-size: 28px;
+            }
+
+            .hero h1 .token-segment {
+                padding: 2px 0;
+            }
+
+            .hero h1 .word-group .token-segment {
+                padding: 2px 4px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                margin: 0 auto;
+                max-width: 300px;
+            }
+            
+            .hero-button {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+            
+            .vision {
+                padding: 100px 20px;
+            }
+            
+            .vision h2 {
+                font-size: 40px;
+            }
+            
+            .footer-links {
+                flex-wrap: wrap;
+                gap: 40px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .footer-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .roadmap-container {
+                margin: 0 -20px 60px;
+                padding: 15px;
+                border-radius: 0;
+            }
+
+            .roadmap-container::-webkit-scrollbar {
+                height: 4px;
+            }
+
+            .roadmap-container::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            .roadmap-container::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 2px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 24px;
+            }
+
+            .hero h1 .token-container {
+                height: 50px;
+            }
+
+            .hero h1 .tokens {
+                font-size: 20px;
+            }
+
+            .hero h1 .token-segment {
+                padding: 1px 0;
+            }
+
+            .hero h1 .word-group .token-segment {
+                padding: 1px 2px;
+            }
+
+            .hero-subtitle {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+
+            .hero p {
+                font-size: 16px;
+                margin-bottom: 30px;
+            }
+
+            .roadmap-container {
+                margin: 0 -20px 40px;
+                padding: 10px;
+            }
+
+            .section-header {
+                margin-bottom: 40px;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .vision-content {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .vision-item {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .vision-item:nth-child(1) { animation-delay: 0.2s; }
+        .vision-item:nth-child(2) { animation-delay: 0.4s; }
+        .vision-item:nth-child(3) { animation-delay: 0.6s; }
+
+        @media (max-width: 768px) {
+            .vision-content {
+                flex-direction: column;
+                padding: 0 20px;
+            }
+            
+            .vision-item {
+                width: 100%;
+                min-height: auto;
+                margin-bottom: 20px;
+            }
+            
+            .section-header {
+                padding: 0 20px;
+            }
+            
+            .vision h2 {
+                font-size: 36px;
+            }
+            
+            .section-description {
+                font-size: 18px;
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="logo">Xeelee AI</div>
+        <button class="menu-button" aria-label="Toggle menu">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+        </button>
+        <div class="nav-links">
+            <a href="#vision">Vision</a>
+            <a href="https://time.xeelee.ai/login">Products</a>
+            <a href="#technology">Technology</a>
+            <a href="#about">About Us</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-subtitle">Welcome to the future of productivity</div>
+            <h1>
+     
+            </h1>
+            <p>We're revolutionizing productivity with AI-powered goal and time management that helps you align daily tasks with strategic objectives, prioritize effectively, and achieve more meaningful results.</p>
+            
+            <div class="hero-buttons">
+                <a href="#vision" class="hero-button primary-button">
+                    <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                    </svg>
+                    Discover Our Vision
+                </a>
+                <a href="#contact" class="hero-button secondary-button">
+                    <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 愿景部分 -->
+    <section class="vision" id="vision">
+        <div class="grid-bg"></div>
+        
+        <div class="section-header">
+            <div class="section-subtitle">Our Vision</div>
+            <h2>Transforming Personal and Professional Productivity</h2>
+            <p class="section-description">We're building intelligent systems that fundamentally reshape how individuals and teams manage goals and time, creating a future where every task contributes meaningfully to larger objectives.</p>
+        </div>
+        
+        <div class="vision-content">
+            <div class="vision-item">
+                <svg class="vision-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <h3>Goal-Task Alignment</h3>
+                <p>Our AI system automatically aligns your daily tasks with strategic objectives, ensuring every action contributes to your larger goals. See exactly how each task moves you closer to success.</p>
+                <a href="#" class="read-more">
+                    Explore Alignment
+                    <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="vision-item">
+                <svg class="vision-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3>AI-Powered Prioritization</h3>
+                <p>Leverage artificial intelligence to automatically assess task priority, importance, and value. Our system helps you focus on what truly matters, optimizing your time and energy.</p>
+                <a href="#" class="read-more">
+                    Learn About Prioritization
+                    <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="vision-item">
+                <svg class="vision-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                <h3>Performance Analytics</h3>
+                <p>Track your progress with intelligent analytics that show how your daily activities contribute to goal achievement. Get insights and recommendations to optimize your productivity.</p>
+                <a href="#" class="read-more">
+                    Discover Analytics
+                    <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        
+ 
+        
+    </section>
+
+    <!-- 底部 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <div class="footer-logo">Xeelee AI</div>
+                <p class="footer-description">Empowering individuals and teams with AI-powered goal and time management solutions that drive meaningful results.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">
+                        <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Research</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Compliance</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 Xeelee.ai. All rights reserved.</p>
+            <div class="footer-nav">
+                <a href="#">Sitemap</a>
+                <a href="#">Contact</a>
+                <a href="#">Status</a>
+                <a href="#">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // 生成随机颜色的函数
+        function getRandomColor() {
+            const hue = Math.floor(Math.random() * 360);
+            const saturation = 70 + Math.floor(Math.random() * 30); // 70-100%
+            const lightness = 45 + Math.floor(Math.random() * 15);  // 45-60%
+            return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        }
+
+        // 重置动画函数
+        function resetAnimation() {
+            const tokens = document.querySelectorAll('.token-segment');
+            tokens.forEach(token => {
+                // 重置动画
+                token.style.animation = 'none';
+                token.offsetHeight; // 触发重排
+                token.style.animation = null;
+                
+                // 设置新的随机颜色
+                token.style.color = getRandomColor();
+                
+                // 重新应用动画
+                token.style.opacity = '0';
+                token.style.animation = 'segmentAppear 0.5s ease-out forwards';
+                token.style.animationDelay = token.style.getPropertyValue('--appear-delay');
+            });
+        }
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始设置颜色和动画
+            const tokens = document.querySelectorAll('.token-segment');
+            tokens.forEach(token => {
+                token.style.color = getRandomColor();
+            });
+            
+            // 每6秒重复一次动画
+            setInterval(resetAnimation, 6000);
+
+            // 移动端菜单处理
+            const menuButton = document.querySelector('.menu-button');
+            const navLinks = document.querySelector('.nav-links');
+            
+            menuButton.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+            });
+
+            // 点击导航链接时关闭菜单
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
